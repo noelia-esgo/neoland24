@@ -1,0 +1,15 @@
+[
+    {
+      "id": 1,
+      "name": "pedido navidad",
+      "productos": ["telefono movil", "auriculares"],
+      "precio total": 1255 
+    },
+
+    {
+        "id": 2,
+        "name": "pedido blackfriday",
+        "productos": ["television", "ordenador portatil"],
+        "precio total": 1800
+    }
+  ]

@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext"; // ✅ Importamos useAuth
 import api from "../services/api";
-import { FaUserPlus, FaTrash, FaEdit } from "react-icons/fa";
+import { FaUserPlus, FaTrash, FaEdit, FaSignOutAlt } from "react-icons/fa"; // ✅ Importamos icono de logout
 import "../styles/Students.css";
 
 const Students = () => {
@@ -11,6 +12,7 @@ const Students = () => {
   const [age, setAge] = useState("");
   const [editingStudentId, setEditingStudentId] = useState(null);
   const navigate = useNavigate();
+  const { logout } = useAuth(); // ✅ Obtenemos la función logout
 
   // ✅ Cargar estudiantes desde la API al inicio
   useEffect(() => {
@@ -90,18 +92,24 @@ const Students = () => {
 
   return (
     <div className="students-container">
-      <h1 className="students-title">Lista de Alumnos</h1>
-  
+      {/* 🔹 Encabezado con botón de cerrar sesión */}
+      <div className="header">
+        <h1 className="students-title">Lista de Alumnos</h1>
+        <button className="logout-button" onClick={logout}>
+          <FaSignOutAlt /> Cerrar Sesión
+        </button>
+      </div>
+
       <button className="register-button" onClick={() => setShowModal(true)}>
         <FaUserPlus /> Agregar Nuevo Alumno
       </button>
-  
+
       {/* 🔹 Mostrar grupos de estudiantes */}
       <div className="students-groups">
         {Object.entries(groupedStudents).map(([groupName, students]) => (
           <div key={groupName} className="student-group">
             <h2 className="group-title">{groupName}</h2>
-  
+
             {students.length === 0 ? (
               <p>No hay alumnos en este grupo.</p>
             ) : (
@@ -110,12 +118,12 @@ const Students = () => {
                   <div 
                     key={student._id} 
                     className="student-card"
-                    onClick={() => navigate(`/students/${student._id}`)} // ✅ Ahora la tarjeta completa es clickeable
+                    onClick={() => navigate(`/students/${student._id}`)} 
                     style={{ cursor: "pointer" }} 
                   >
                     <h3>{student.name}</h3>
                     <p>Edad: {student.age} años</p>
-  
+
                     {/* 🔹 Evitar que los botones de editar/eliminar activen la navegación */}
                     <div className="student-actions">
                       <FaEdit 
@@ -134,14 +142,14 @@ const Students = () => {
           </div>
         ))}
       </div>
-  
+
       {/* 🔹 Modal para agregar/editar alumno */}
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-content">
             <button className="close-button" onClick={() => setShowModal(false)}>✖</button>
             <h2>{editingStudentId ? "Editar Alumno" : "Agregar Alumno"}</h2>
-  
+
             <form onSubmit={handleSaveStudent}>
               <input 
                 type="text" 
@@ -156,7 +164,7 @@ const Students = () => {
                 <option value="2">2</option>
                 <option value="3">3</option>
               </select>
-  
+
               <div className="modal-buttons">
                 <button type="submit" className="submit-button">
                   {editingStudentId ? "Actualizar" : "Agregar"}
@@ -171,18 +179,6 @@ const Students = () => {
       )}
     </div>
   );
-}  
+};
 
 export default Students;
-
-
-
-
-
-
-
-
-
-
-
-

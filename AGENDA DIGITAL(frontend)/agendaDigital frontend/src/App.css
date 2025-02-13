@@ -1,0 +1,18 @@
+#root {
+  width: 100vw;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  
+  justify-content: center;
+  align-items: flex-start;
+  overflow-x: hidden;
+}
+
+/* 🔹 Permite scroll globalmente sin afectar el contenido */
+body {
+  overflow-y: auto !important;
+  background: inherit !important; /* Mantiene el fondo definido en student-detail-page */
+}
+
+

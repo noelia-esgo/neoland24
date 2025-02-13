@@ -1,0 +1,86 @@
+/* 🔹 Fondo con imagen */
+.login-container {
+    width: 100vw;
+    height: 100vh;
+    background: url("/images/fondo.jpg") no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 🔹 Contenedor del formulario */
+.login-box {
+    background: rgba(255, 255, 255, 0.8); /* ✅ Más transparencia */
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 400px;
+}
+
+/* 🔹 Título */
+.login-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* 🔹 Inputs del formulario */
+.login-input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+/* 🔹 Botones */
+.login-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+    margin-top: 10px;
+}
+
+/* 🔹 Botón de iniciar sesión */
+.login-button.login {
+    background: #28a745;
+    color: white;
+}
+
+.login-button.login:hover {
+    background: #218838;
+}
+
+/* 🔹 Botón de registro */
+.login-button.register {
+    background: #007bff;
+    color: white;
+}
+
+.login-button.register:hover {
+    background: #0056b3;
+}
+
+/* 🔹 Mensajes de error */
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* 🔹 Mensajes de éxito */
+.success-message {
+    color: green;
+    font-size: 14px;
+    margin-top: 10px;
+}

@@ -17,16 +17,17 @@ const Students = () => {
   // ✅ Cargar estudiantes desde la API al inicio
   useEffect(() => {
     const fetchStudents = async () => {
-      try {
-        const response = await api.get("/students");
-        console.log("✅ Lista de estudiantes cargada:", response.data);
-        setStudents(response.data);
-      } catch (error) {
-        console.error("❌ Error al obtener los estudiantes:", error);
-      }
+        try {
+            const response = await api.get("/api/students"); // ✅ Asegurarnos de usar `GET`
+            console.log("✅ Lista de estudiantes obtenida:", response.data);
+            setStudents(response.data); // ✅ Guardar la lista en el estado
+        } catch (error) {
+            console.error("❌ Error al obtener los estudiantes:", error);
+        }
     };
+
     fetchStudents();
-  }, []);
+}, []); // ✅ Se ejecuta al cargar la página
 
   // ✅ Agrupar estudiantes por edad
   const groupedStudents = {
@@ -39,36 +40,27 @@ const Students = () => {
   const handleSaveStudent = async (e) => {
     e.preventDefault();
 
-    if (!name || age === "" || age === null || age === undefined) {
-      return alert("⚠ Completa todos los campos correctamente.");
+    if (!name.trim() || age === "" || age === null || age === undefined) {
+        alert("⚠ Completa todos los campos correctamente.");
+        return;
     }
 
     try {
-      const studentData = { name, age: Number(age) };
+        const response = await api.post("/api/students", { name, age: Number(age) });
+        console.log("✅ Alumno guardado:", response.data.student);
 
-      if (editingStudentId) {
-        // Editar estudiante
-        const response = await api.put(`/students/${editingStudentId}`, studentData);
-        setStudents(prevStudents =>
-          prevStudents.map(student =>
-            student._id === editingStudentId ? response.data : student
-          )
-        );
-      } else {
-        // Agregar nuevo estudiante
-        const response = await api.post("/students", studentData);
-        setStudents(prevStudents => [...prevStudents, response.data.student]);
-      }
+        // ✅ Agregar el nuevo estudiante a la lista
+        setStudents((prevStudents) => [...prevStudents, response.data.student]);
 
-      setShowModal(false);
-      setName("");
-      setAge("");
-      setEditingStudentId(null);
+        setShowModal(false);
+        setName("");
+        setAge("");
     } catch (error) {
-      console.error("❌ Error al guardar el estudiante:", error);
-      alert(error.response?.data?.message || "Hubo un error al guardar el alumno.");
+        console.error("❌ Error al guardar el estudiante:", error.response?.data || error);
     }
-  };
+};
+
+
 
   // ✅ Editar estudiante
   const handleEditStudent = (student) => {
@@ -151,12 +143,26 @@ const Students = () => {
             <h2>{editingStudentId ? "Editar Alumno" : "Agregar Alumno"}</h2>
 
             <form onSubmit={handleSaveStudent}>
-              <input 
-                type="text" 
-                placeholder="Nombre del Alumno" 
-                value={name} 
-                onChange={(e) => setName(e.target.value)} 
-              />
+            <input 
+    type="text" 
+    placeholder="Nombre del Alumno" 
+    value={name} 
+    onChange={(e) => {
+        console.log("📌 Nombre ingresado:", e.target.value); // 🔍 Depuración
+        setName(e.target.value);
+    }} 
+/>
+
+<input 
+    type="number" 
+    placeholder="Edad" 
+    value={age} 
+    onChange={(e) => {
+        console.log("📌 Edad ingresada:", e.target.value); // 🔍 Depuración
+        setAge(e.target.value);
+    }} 
+/>
+
               <select value={age} onChange={(e) => setAge(Number(e.target.value))}>
                 <option value="">Seleccione una edad</option>
                 <option value="0">0</option>

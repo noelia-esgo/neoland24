@@ -2,7 +2,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const authRoutes = require("./routes/auth.js"); // ✅ Cambiado a require()
+const authRoutes = require("./routes/auth.js");
+const studentRoutes = require("./routes/students"); // ✅ Importamos la ruta de estudiantes
+const registerRoutes = require("./routes/registers"); 
 
 dotenv.config();
 const app = express();
@@ -18,8 +20,9 @@ mongoose.connect(process.env.MONGO_URI, {
 
 // 📌 Rutas
 app.use("/api/auth", authRoutes);
-
-const PORT = process.env.PORT ||5000 ;
+app.use("/api/students", studentRoutes); // ✅ Ahora las rutas de estudiantes funcionan
+app.use("/api/registers", registerRoutes);
+const PORT = process.env.PORT || 9000;
 app.listen(PORT, () => console.log(`✅ Servidor corriendo en http://localhost:${PORT}`));
 
 

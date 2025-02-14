@@ -15,8 +15,8 @@ router.get("/student/:studentId", getRegistersByStudentId);
 // 🔹 Obtener un registro específico por ID
 router.get("/record/:id", getRegister);
 
-// 🔹 Crear un nuevo registro
-router.post("/", createRegister);
+// ✅ Crear un nuevo registro
+router.post("/student/:studentId", createRegister);
 
 // 🔹 Actualizar un registro por ID
 router.put("/:id", updateRegister);
@@ -25,6 +25,7 @@ router.put("/:id", updateRegister);
 router.delete("/:id", deleteRegister);
 
 module.exports = router;
+
 
 
 

@@ -23,7 +23,8 @@ const registerUser = async (req, res) => {
         }
 
         // 🔹 Encriptar la contraseña antes de guardarla
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedPassword = await bcrypt.hash(String(password), 10);
+
 
         // 🔹 Crear nuevo usuario
         const newUser = await User.create({ email, name, password: hashedPassword });
@@ -53,7 +54,7 @@ const loginUser = async (req, res) => {
         }
 
         // 🔹 Comparar contraseña ingresada con la almacenada
-        const isMatch = await bcrypt.compare(password, user.password);
+        const isMatch = await bcrypt.compare(String(password), user.password);
         if (!isMatch) {
             return res.status(401).json({ message: "❌ Credenciales incorrectas" });
         }

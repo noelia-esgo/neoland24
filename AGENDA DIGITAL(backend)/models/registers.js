@@ -1,35 +1,20 @@
 const mongoose = require("mongoose");
 
 const registerSchema = new mongoose.Schema({
-  studentId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Student",
-    required: true,
-  },
+  studentId: { type: mongoose.Schema.Types.ObjectId, ref: "Student", required: true },
   sleep: {
-    morning: {
-      hours: { type: Number, required: false, default: 0 },
-      minutes: { type: Number, required: false, default: 0 },
-    },
-    midday: {
-      hours: { type: Number, required: false, default: 0 },
-      minutes: { type: Number, required: false, default: 0 },
-    },
-    evening: {
-      hours: { type: Number, required: false, default: 0 },
-      minutes: { type: Number, required: false, default: 0 },
-    },
+    morning: { hours: Number, minutes: Number },
+    midday: { hours: Number, minutes: Number },
+    evening: { hours: Number, minutes: Number },
   },
   food: {
-    mealType: { type: String, required: false },
-    description: { type: String, required: false },
-    quantity: { type: String, required: false },
+    mealType: String,
+    description: String,
+    quantity: String,
   },
 }, { timestamps: true });
 
-const Register = mongoose.model("Register", registerSchema);
-
-module.exports = Register;
+module.exports = mongoose.model("Register", registerSchema);
 
 
 

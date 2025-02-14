@@ -1,4 +1,5 @@
 const Register = require("../models/registers"); // ✅ Asegurar que coincida con el nombre real del archivo
+const Student = require("../models/students");
 
 // 🔹 Obtener todos los registros de un estudiante por `studentId`
 const mongoose = require("mongoose");
@@ -45,25 +46,30 @@ const getRegister = async (req, res) => {
 // 🔹 Crear un nuevo registro
 const createRegister = async (req, res) => {
   try {
-    const { studentId, food, sleep } = req.body;
+    const { studentId } = req.params;
+    const { sleep, food } = req.body;
 
-    // ✅ Validar que studentId es un ObjectId válido
-    if (!mongoose.Types.ObjectId.isValid(studentId)) {
-      return res.status(400).json({ message: "❌ ID de estudiante inválido." });
+    console.log("📩 Datos recibidos en el backend:", req.body);
+
+    // ✅ Verificar si el estudiante existe
+    const student = await Student.findById(studentId);
+    if (!student) {
+      return res.status(404).json({ message: "❌ Estudiante no encontrado" });
     }
 
+    // ✅ Crear el nuevo registro
     const newRegister = new Register({
-      studentId: new mongoose.Types.ObjectId(studentId),
-      food,
-      sleep
+      studentId,
+      sleep,
+      food
     });
 
     await newRegister.save();
-    res.status(201).json({ message: "✅ Registro creado con éxito.", register: newRegister });
+    res.status(201).json({ message: "✅ Registro guardado correctamente", register: newRegister });
 
   } catch (error) {
-    console.error("❌ Error al crear el registro:", error);
-    res.status(500).json({ message: "Error en el servidor." });
+    console.error("❌ Error al guardar el registro:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 
@@ -71,23 +77,29 @@ const createRegister = async (req, res) => {
 // 🔹 Actualizar un registro por ID
 const updateRegister = async (req, res) => {
   try {
+    const { id } = req.params;
+
+    // ✅ Convertir a ObjectId para asegurar compatibilidad
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "❌ ID no válido. Debe ser un ObjectId de 24 caracteres." });
+    }
+
     const updatedRegister = await Register.findByIdAndUpdate(
-      req.params.id,
-      req.body,
+      id, 
+      req.body, 
       { new: true }
     );
 
     if (!updatedRegister) {
-      return res.status(404).json({ message: "❌ Registro no encontrado." });
+      return res.status(404).json({ message: "❌ Registro no encontrado en la base de datos." });
     }
 
-    res.json({ message: "✅ Registro actualizado correctamente", register: updatedRegister });
+    res.status(200).json({ message: "✅ Registro actualizado correctamente.", register: updatedRegister });
   } catch (error) {
     console.error("❌ Error al actualizar el registro:", error);
-    res.status(500).json({ message: "Error en el servidor." });
+    res.status(500).json({ message: "Error interno al actualizar el registro." });
   }
 };
-
 // 🔹 Eliminar un registro por ID
 const deleteRegister = async (req, res) => {
   try {

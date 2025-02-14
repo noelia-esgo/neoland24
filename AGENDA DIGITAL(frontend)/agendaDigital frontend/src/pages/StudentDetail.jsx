@@ -1,134 +1,163 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import api from "../services/api";
-import "../styles/StudentDetail.css";
 
-const StudentDetails = () => {
+const StudentDetail = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [student, setStudent] = useState(null);
   const [records, setRecords] = useState([]);
-  const [morningSleep, setMorningSleep] = useState({ hours: "", minutes: "" });
-  const [middaySleep, setMiddaySleep] = useState({ hours: "", minutes: "" });
-  const [afternoonSleep, setAfternoonSleep] = useState({ hours: "", minutes: "" });
-  const [mealType, setMealType] = useState("");
-  const [foodType, setFoodType] = useState("");
-  const [foodQuantity, setFoodQuantity] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [sleep, setSleep] = useState({
+    morning: { hours: 0, minutes: 0 },
+    midday: { hours: 0, minutes: 0 },
+    evening: { hours: 0, minutes: 0 },
+  });
+  const [food, setFood] = useState({
+    mealType: "",
+    description: "",
+    quantity: "",
+  });
 
+  // ✅ Obtener los datos del estudiante
   useEffect(() => {
-    const fetchStudentDetails = async () => {
+    const fetchStudent = async () => {
       try {
+        console.log(`📌 Haciendo GET a: /api/students/${id}`);
         const response = await api.get(`/students/${id}`);
+        console.log("✅ Estudiante obtenido:", response.data);
         setStudent(response.data);
       } catch (error) {
-        console.error("Error al obtener datos del estudiante:", error);
+        console.error("❌ Error al obtener el estudiante:", error);
       }
     };
 
     const fetchRecords = async () => {
       try {
+        console.log(`📌 Haciendo GET a: /api/students/${id}/records`);
         const response = await api.get(`/students/${id}/records`);
+        console.log("✅ Registros obtenidos:", response.data);
         setRecords(response.data);
       } catch (error) {
-        console.error("Error al obtener registros:", error);
+        console.error("❌ Error al obtener los registros:", error);
       }
     };
 
-    fetchStudentDetails();
+    fetchStudent();
     fetchRecords();
   }, [id]);
 
-  const handleSubmit = async (e) => {
+  // ✅ Manejar el envío del formulario
+  const handleSaveRecord = async (e) => {
     e.preventDefault();
-    setLoading(true);
-
     try {
-      const newRecord = { morningSleep, middaySleep, afternoonSleep, mealType, foodType, foodQuantity };
-      const response = await api.post(`/students/${id}/records`, newRecord);
-      setRecords([...records, response.data]);
-      setMorningSleep({ hours: "", minutes: "" });
-      setMiddaySleep({ hours: "", minutes: "" });
-      setAfternoonSleep({ hours: "", minutes: "" });
-      setMealType("");
-      setFoodType("");
-      setFoodQuantity("");
+      const response = await api.post(`/students/${id}/records`, { sleep, food });
+      console.log("✅ Registro guardado:", response.data);
+      
+      // 🔹 Agregar nuevo registro a la lista
+      setRecords([...records, response.data.record]); 
     } catch (error) {
-      console.error("Error al guardar el registro:", error);
+      console.error("❌ Error al guardar el registro:", error);
     }
-
-    setLoading(false);
   };
 
-  if (!student) return <p>Cargando datos del estudiante...</p>;
+  if (!student) return <p>Cargando...</p>;
 
   return (
-    <div className="student-details-container">
-      <div className="student-card">
-        <h1>{student.name}</h1>
-        <p>Edad: {student.age} años</p>
-      </div>
+    <div className="student-detail-container">
+      {/* 🔹 Nombre del estudiante */}
+      <h1>{student.name}</h1>
 
-      <div className="register-card">
-        <h2>Registrar Actividades</h2>
-        <form onSubmit={handleSubmit}>
-          <label>
-            Tipo de Comida:
-            <select value={mealType} onChange={(e) => setMealType(e.target.value)}>
-              <option value="">Selecciona una opción</option>
-              <option value="desayuno">Desayuno</option>
-              <option value="comida">Comida</option>
-              <option value="merienda">Merienda</option>
-            </select>
-          </label>
-          <label>
-            Registro de Alimentación:
-            <input type="text" placeholder="Ej. Pan con leche" value={foodType} onChange={(e) => setFoodType(e.target.value)} />
-          </label>
-          <label>
-            Cantidad Comida:
-            <select value={foodQuantity} onChange={(e) => setFoodQuantity(e.target.value)}>
-              <option value="">Selecciona una opción</option>
-              <option value="poco">Poco</option>
-              <option value="bastante">Bastante</option>
-              <option value="todo">Todo</option>
-              <option value="nada">Nada</option>
-            </select>
-          </label>
-          <h3>Tiempo Dormido</h3>
-          {[{ label: "Mañana", state: morningSleep, setState: setMorningSleep },
-            { label: "Mediodía", state: middaySleep, setState: setMiddaySleep },
-            { label: "Tarde", state: afternoonSleep, setState: setAfternoonSleep }].map(({ label, state, setState }) => (
-            <label key={label}>
-              {label}:
-              <input type="number" placeholder="Horas" value={state.hours} onChange={(e) => setState({ ...state, hours: e.target.value })} min="0" />
-              <input type="number" placeholder="Minutos" value={state.minutes} onChange={(e) => setState({ ...state, minutes: e.target.value })} min="0" max="59" />
+      <div className="student-detail-content">
+        {/* 🔹 Formulario para registrar sueño y alimentación */}
+        <div className="register-form">
+          <h2>Agregar Registro</h2>
+          <form onSubmit={handleSaveRecord}>
+            <h3>Sueño</h3>
+            <label>
+              Mañana: 
+              <input type="number" value={sleep.morning.hours} onChange={(e) => setSleep({ ...sleep, morning: { ...sleep.morning, hours: e.target.value } })} /> h
+              <input type="number" value={sleep.morning.minutes} onChange={(e) => setSleep({ ...sleep, morning: { ...sleep.morning, minutes: e.target.value } })} /> min
             </label>
-          ))}
-          <button type="submit" className="save-button" disabled={loading}>{loading ? "Guardando..." : "Guardar Registro"}</button>
-        </form>
-      </div>
+            <label>
+              Mediodía: 
+              <input type="number" value={sleep.midday.hours} onChange={(e) => setSleep({ ...sleep, midday: { ...sleep.midday, hours: e.target.value } })} /> h
+              <input type="number" value={sleep.midday.minutes} onChange={(e) => setSleep({ ...sleep, midday: { ...sleep.midday, minutes: e.target.value } })} /> min
+            </label>
+            <label>
+              Tarde: 
+              <input type="number" value={sleep.evening.hours} onChange={(e) => setSleep({ ...sleep, evening: { ...sleep.evening, hours: e.target.value } })} /> h
+              <input type="number" value={sleep.evening.minutes} onChange={(e) => setSleep({ ...sleep, evening: { ...sleep.evening, minutes: e.target.value } })} /> min
+            </label>
 
-      <div className="records-card">
-        <h2>Registros</h2>
-        {records.length === 0 ? <p>No hay registros aún.</p> : (
-          <ul>
-            {records.map((record, index) => (
-              <li key={index}>
-                <p><strong>Comida:</strong> {record.mealType} - {record.foodType} ({record.foodQuantity})</p>
-                <p><strong>Tiempo de sueño:</strong> Mañana: {record.morningSleep.hours}h {record.morningSleep.minutes}m, Mediodía: {record.middaySleep.hours}h {record.middaySleep.minutes}m, Tarde: {record.afternoonSleep.hours}h {record.afternoonSleep.minutes}m</p>
-                <button className="edit-button">✏️ Editar</button>
-                <button className="delete-button">🗑️ Eliminar</button>
-              </li>
-            ))}
-          </ul>
-        )}
+            <h3>Alimentación</h3>
+            <label>
+              Tipo de comida:
+              <select value={food.mealType} onChange={(e) => setFood({ ...food, mealType: e.target.value })}>
+                <option value="">Selecciona...</option>
+                <option value="desayuno">Desayuno</option>
+                <option value="almuerzo">Almuerzo</option>
+                <option value="cena">Cena</option>
+              </select>
+            </label>
+            <label>
+              Descripción: <input type="text" value={food.description} onChange={(e) => setFood({ ...food, description: e.target.value })} />
+            </label>
+            <label>
+              Cantidad: <input type="text" value={food.quantity} onChange={(e) => setFood({ ...food, quantity: e.target.value })} />
+            </label>
+
+            <button type="submit">Guardar Registro</button>
+          </form>
+        </div>
+
+        {/* 🔹 Mostrar registros guardados */}
+        <div className="records-list">
+          <h2>Registros de {student.name}</h2>
+          {records.length === 0 ? (
+            <p>No hay registros aún.</p>
+          ) : (
+            records.map((record, index) => (
+              <div key={index} className="record-item">
+                <h3>Registro {index + 1}</h3>
+
+                {/* Verificamos si el registro tiene datos de sueño */}
+                {record.sleep ? (
+                  <p>
+                    <strong>Sueño:</strong> Mañana: {record.sleep?.morning?.hours ?? 0}h {record.sleep?.morning?.minutes ?? 0}min, 
+                    Mediodía: {record.sleep?.midday?.hours ?? 0}h {record.sleep?.midday?.minutes ?? 0}min, 
+                    Tarde: {record.sleep?.evening?.hours ?? 0}h {record.sleep?.evening?.minutes ?? 0}min
+                  </p>
+                ) : (
+                  <p><strong>Sueño:</strong> No hay datos disponibles.</p>
+                )}
+
+                {/* Verificamos si el registro tiene datos de comida */}
+                {record.food ? (
+                  <p>
+                    <strong>Alimentación:</strong> {record.food?.mealType ?? "No especificado"} - 
+                    {record.food?.description ?? "Sin descripción"} ({record.food?.quantity ?? "Desconocida"})
+                  </p>
+                ) : (
+                  <p><strong>Alimentación:</strong> No hay datos disponibles.</p>
+                )}
+
+                <button onClick={() => console.log("Editar")}>Editar</button>
+                <button onClick={() => console.log("Eliminar")}>Eliminar</button>
+              </div>
+            ))
+          )}
+        </div>
       </div>
     </div>
   );
 };
 
-export default StudentDetails;
+export default StudentDetail;
+
+
+
+
+
+
 
 
 

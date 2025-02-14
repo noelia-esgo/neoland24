@@ -46,15 +46,32 @@ const Students = () => {
     }
 
     try {
-        const response = await api.post("/api/students", { name, age: Number(age) });
-        console.log("✅ Alumno guardado:", response.data.student);
+        let response;
+        if (editingStudentId) {
+            // ✅ Editar estudiante con `PUT`
+            response = await api.put(`/students/${editingStudentId}`, { name, age: Number(age) });
+            console.log("✅ Estudiante actualizado:", response.data);
 
-        // ✅ Agregar el nuevo estudiante a la lista
-        setStudents((prevStudents) => [...prevStudents, response.data.student]);
+            // ✅ Actualizar la lista de estudiantes en el frontend
+            setStudents((prevStudents) =>
+                prevStudents.map((student) =>
+                    student._id === editingStudentId ? response.data : student
+                )
+            );
+        } else {
+            // ✅ Agregar nuevo estudiante con `POST`
+            response = await api.post("/students", { name, age: Number(age) });
+            console.log("✅ Alumno guardado:", response.data.student);
+
+            // ✅ Agregar el nuevo estudiante a la lista
+            setStudents((prevStudents) => [...prevStudents, response.data.student]);
+        }
 
         setShowModal(false);
         setName("");
         setAge("");
+        setEditingStudentId(null); // ✅ Restablecer el estado de edición
+
     } catch (error) {
         console.error("❌ Error al guardar el estudiante:", error.response?.data || error);
     }
@@ -110,8 +127,11 @@ const Students = () => {
                   <div 
                     key={student._id} 
                     className="student-card"
-                    onClick={() => navigate(`/students/${student._id}`)} 
-                    style={{ cursor: "pointer" }} 
+                    onClick={() => {
+                      console.log("📌 Navegando a: ", `/students/${student._id}`);
+                      navigate(`/students/${student._id}`); // 🔹 Redirigir a StudentDetail con ID
+                    }}
+                    style={{ cursor: "pointer" }}
                   >
                     <h3>{student.name}</h3>
                     <p>Edad: {student.age} años</p>
@@ -153,15 +173,7 @@ const Students = () => {
     }} 
 />
 
-<input 
-    type="number" 
-    placeholder="Edad" 
-    value={age} 
-    onChange={(e) => {
-        console.log("📌 Edad ingresada:", e.target.value); // 🔍 Depuración
-        setAge(e.target.value);
-    }} 
-/>
+
 
               <select value={age} onChange={(e) => setAge(Number(e.target.value))}>
                 <option value="">Seleccione una edad</option>

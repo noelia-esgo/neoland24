@@ -1,18 +1,11 @@
 #root {
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  
-  justify-content: center;
-  align-items: flex-start;
+  display: block; /* ✅ Elimina flexbox para evitar restricciones */
   overflow-x: hidden;
 }
 
-/* 🔹 Permite scroll globalmente sin afectar el contenido */
-body {
-  overflow-y: auto !important;
-  background: inherit !important; /* Mantiene el fondo definido en student-detail-page */
-}
 
 

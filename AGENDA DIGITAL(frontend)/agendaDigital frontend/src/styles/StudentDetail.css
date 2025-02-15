@@ -1,20 +1,163 @@
 .student-detail-container {
+    background: url("/images/studentDetails.jpg") no-repeat center center/cover !important;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 20px;
 }
 
-.content {
+/* 🔹 Estilo para el nombre del alumno */
+/* 🔹 Nombre del estudiante - Arriba a la izquierda en morado y grande */
+.student-name {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 3rem; /* ✅ Más grande */
+    font-weight: bold;
+    color: rgb(55, 165, 199); /* ✅ Color morado */
+    text-transform: capitalize; /* 🔹 Primera letra en mayúscula */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* 🔹 Sombra para resaltar */
+}
+
+
+  
+  /* Contenedor principal */
+  .student-detail-content {
     display: flex;
-    gap: 20px;
-}
-
-.form-section, .records-section {
-    width: 50%;
-}
-
-.record-card {
-    background: #f4f4f4;
+    justify-content: space-between;
+    gap: 30px;
+    max-width: 1100px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Encabezado del estudiante */
+  .student-detail-container h1 {
+    font-size: 26px;
+    color: #333;
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: 20px;
+  }
+  
+  /* 📝 Formulario de registro */
+  .register-form {
+    flex: 1;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .register-form h2 {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .register-form label {
+    font-weight: bold;
+    color: #444;
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  .register-form input,
+  .register-form select {
+    width: 100%;
     padding: 10px;
-    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  .register-form button {
+    width: 100%;
+    padding: 12px;
+    background: #28a745;
+    color: white;
+    border: none;
     border-radius: 5px;
-}
-
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+  }
+  
+  .register-form button:hover {
+    background: #218838;
+  }
+  
+  /* 📌 Registros */
+  .records-list {
+    flex: 1;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .records-list h2 {
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  .record-item {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    border-left: 5px solid #28a745;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .record-item h3 {
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+  
+  .record-item p {
+    color: #555;
+    font-size: 14px;
+    margin: 5px 0;
+  }
+  
+  /* Botones de acción */
+  .record-item button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s ease-in-out;
+  }
+  
+  .record-item button:first-child {
+    background: #FFC107;
+    color: black;
+  }
+  
+  .record-item button:first-child:hover {
+    background: #e0a800;
+  }
+  
+  .record-item button:last-child {
+    background: #DC3545;
+    color: white;
+  }
+  
+  .record-item button:last-child:hover {
+    background: #c82333;
+  }
+  

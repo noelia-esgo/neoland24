@@ -18,16 +18,18 @@ const Students = () => {
   useEffect(() => {
     const fetchStudents = async () => {
         try {
-            const response = await api.get("/api/students"); // ✅ Asegurarnos de usar `GET`
+            console.log("📌 Haciendo GET a: /api/students");
+            const response = await api.get("/students"); // ✅ Asegurar que la URL es correcta
             console.log("✅ Lista de estudiantes obtenida:", response.data);
-            setStudents(response.data); // ✅ Guardar la lista en el estado
+            setStudents(response.data);
         } catch (error) {
             console.error("❌ Error al obtener los estudiantes:", error);
         }
     };
 
     fetchStudents();
-}, []); // ✅ Se ejecuta al cargar la página
+}, []);
+
 
   // ✅ Agrupar estudiantes por edad
   const groupedStudents = {
@@ -61,10 +63,14 @@ const Students = () => {
         } else {
             // ✅ Agregar nuevo estudiante con `POST`
             response = await api.post("/students", { name, age: Number(age) });
-            console.log("✅ Alumno guardado:", response.data.student);
+            console.log("✅ Alumno guardado:", response.data);
+
+            if (!response.data) {
+                throw new Error("La respuesta del servidor es inválida.");
+            }
 
             // ✅ Agregar el nuevo estudiante a la lista
-            setStudents((prevStudents) => [...prevStudents, response.data.student]);
+            setStudents((prevStudents) => [...prevStudents, response.data]); 
         }
 
         setShowModal(false);
@@ -73,7 +79,7 @@ const Students = () => {
         setEditingStudentId(null); // ✅ Restablecer el estado de edición
 
     } catch (error) {
-        console.error("❌ Error al guardar el estudiante:", error.response?.data || error);
+        console.log("❌ Error al guardar el estudiante:", error);
     }
 };
 

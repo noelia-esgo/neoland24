@@ -2,29 +2,23 @@ const Student = require('./models/students')
 
 const createStudent = async (req, res) => {
     try {
-        const { name, age } = req.body;
-
-        // Verifica que ambos campos existen y que age es un número válido
-        if (!name || age === "" || age === null || age === undefined) {
-            return res.status(400).json({ message: "⚠ Todos los campos son obligatorios." });
-        }
-
-        const numericAge = Number(age);
-        if (isNaN(numericAge) || numericAge < 0) {
-            return res.status(400).json({ message: "⚠ La edad debe ser un número válido mayor o igual a 0." });
-        }
-
-        // Crea el nuevo estudiante con los datos validados
-        const student = await Student.create({ name, age: numericAge });
-
-        console.log("✅ Estudiante creado:", student);
-        res.status(201).json({ message: "✅ Alumno registrado con éxito.", student });
-
+      req.body.name = req.body.name.trim(); // 🔹 Elimina espacios innecesarios
+      req.body.name = req.body.name.toLowerCase(); // 🔹 Convierte el nombre a minúsculas para evitar diferencias
+  
+      const existingStudent = await Student.findOne({ name: req.body.name });
+      if (existingStudent) {
+        return res.status(400).json({ message: "❌ Ese nombre ya existe. Intenta con otro nombre." });
+      }
+  
+      const student = new Student(req.body);
+      await student.save();
+      res.status(201).json(student);
     } catch (error) {
-        console.error("❌ Error en la creación del estudiante:", error);
-        res.status(500).json({ message: "Error interno del servidor al crear el estudiante." });
+      console.error("❌ Error al crear el estudiante:", error);
+      res.status(500).json({ message: "Error interno del servidor" });
     }
-};
+  };
+  
 
 
 const getStudent = async (req, res) => {

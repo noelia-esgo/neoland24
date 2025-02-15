@@ -9,22 +9,25 @@ const {
 
 const router = express.Router();
 
-// 🔹 Obtener todos los registros de un estudiante
+// ✅ Obtener todos los registros de un estudiante
 router.get("/student/:studentId", getRegistersByStudentId);
 
-// 🔹 Obtener un registro específico por ID
+// ✅ Obtener un registro específico por ID
 router.get("/record/:id", getRegister);
 
-// ✅ Crear un nuevo registro
+// ✅ Crear un nuevo registro para un estudiante
 router.post("/student/:studentId", createRegister);
 
-// 🔹 Actualizar un registro por ID
-router.put("/:id", updateRegister);
 
-// 🔹 Eliminar un registro por ID
-router.delete("/:id", deleteRegister);
+// ✅ Actualizar un registro por ID
+router.put("/record/:recordId", updateRegister);
+
+// ✅ Eliminar un registro por ID
+router.delete("/record/:recordId", deleteRegister);
 
 module.exports = router;
+
+
 
 
 

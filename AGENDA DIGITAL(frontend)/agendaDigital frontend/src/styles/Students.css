@@ -30,7 +30,7 @@ html, body {
   text-align: center;
   margin-bottom: 20px;
   text-transform: uppercase;
-  color: #15dddd; 
+  color: #45d6d6; 
   text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
 }
 
@@ -152,104 +152,103 @@ html, body {
   background: rgba(229, 62, 62, 0.2);
 }
 
-/* 🔹 Modal */
-.modal-overlay {
+/* 🔹 Nombre del estudiante */
+.student-name {
+  font-size: 2.5rem; /* Más grande */
+  color: #6a0dad; /* Morado */
+  font-weight: bold;
+  margin-bottom: 10px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+/* 🔹 Botón de Cerrar Sesión */
+.logout-button {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  top: 20px;
+  right: 20px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background 0.3s ease-in-out;
   z-index: 1000;
 }
 
-.modal-content {
-  background: white;
-  padding: 25px;
-  border-radius: 12px;
-  text-align: center;
-  width: 400px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
-  position: relative;
-  animation: fadeIn 0.3s ease-in-out;
+.logout-button:hover {
+  background-color: #cc0000;
 }
 
-/* 🔹 Animación modal */
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-/* 🔹 Cerrar modal */
-.close-button {
+/* 🔹 Botón Volver */
+.back-button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s ease-in-out;
   position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 20px;
-  background: none;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.back-button:hover {
+  background-color: #cc0000;
+}
+
+/* 🔹 Formulario */
+.register-form {
+  max-width: 350px;
+  margin: 20px auto;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 🔹 Inputs del formulario */
+.register-form input,
+.register-form select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
   border: none;
-  cursor: pointer;
-  color: #777;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.4);
+  color: black;
+  font-size: 14px;
 }
 
-.close-button:hover {
-  color: red;
-}
-
-/* 🔹 Campos del formulario */
-.modal-content input, .modal-content select {
-  width: 90%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 16px;
+.register-form input:focus,
+.register-form select:focus {
   outline: none;
-  transition: border 0.3s ease-in-out;
+  background: rgba(255, 255, 255, 0.6);
 }
 
-.modal-content input:focus, .modal-content select:focus {
-  border: 1px solid #6b46c1;
-}
-
-/* 🔹 Botones del modal */
-.modal-buttons {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 20px;
-}
-
-/* 🔹 Botón Guardar */
-.submit-button {
-  background: #38a169;
+/* 🔹 Botón de Guardar Registro */
+.register-form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #6a0dad;
   color: white;
-  padding: 10px 15px;
-  border-radius: 6px;
   border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
   transition: background 0.3s ease-in-out;
 }
 
-.submit-button:hover {
-  background: #2f855a;
-}
-
-/* 🔹 Botón Cancelar */
-.cancel-button {
-  background: #e53e3e;
-  color: white;
-  padding: 10px 15px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  transition: background 0.3s ease-in-out;
-}
-
-.cancel-button:hover {
-  background: #c53030;
+.register-form button:hover {
+  background-color: #4a0072;
 }
 
 /* 🔹 Responsive */
@@ -271,5 +270,6 @@ html, body {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
 }
+
 
 

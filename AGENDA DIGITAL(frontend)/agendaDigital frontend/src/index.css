@@ -5,13 +5,8 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
-  background: none !important; /* ✅ Evita conflictos con el fondo */
+  background: none !important; /* ✅ Mantiene el fondo sin conflictos */
+  position: relative; /* ✅ Asegura que los elementos absolutos se posicionen correctamente */
 }
 
-#root {
-  width: 100%;
-  min-height: 100vh;
-  display: block; /* ✅ Permite que cada página maneje su propio layout */
-  overflow-x: hidden;
-}
 

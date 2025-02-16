@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import api from "../services/api";
 import "../styles/StudentDetail.css";
+import { useAuth } from "../context/AuthContext";
 
 const StudentDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [student, setStudent] = useState(null);
   const [records, setRecords] = useState([]);
   const [editingRecord, setEditingRecord] = useState(null); // Para modo edición
+  const { logout } = useAuth();
 
   const [sleep, setSleep] = useState({
     morning: { hours: 0, minutes: 0 },
@@ -45,6 +48,16 @@ const StudentDetail = () => {
     fetchRecords();
   }, [id]);
 
+  const handleGoBack = () => {
+    navigate(-1); // Volver a la página anterior
+  };
+    // 🔹 Cerrar sesión
+    const handleLogout = () => {
+      console.log("Intentando cerrar sesión...");
+      logout()
+      // Depuración en consola
+    }
+    
   // ✅ Guardar o actualizar un registro
   const handleSaveRecord = async (e) => {
     e.preventDefault();
@@ -98,6 +111,17 @@ const StudentDetail = () => {
   return (
     <div className="student-detail-container">
       <h1 className="student-name">{student.name}</h1>
+
+      
+       {/* Botón para volver atrás */}
+       <div className="button-container">
+       <button onClick={handleGoBack} className="back-button">
+        ⬅ Volver
+      </button>
+      <button onClick={handleLogout} className="logout-button">
+         Cerrar Sesión
+      </button>
+      </div>
 
 
       <div className="student-detail-content">

@@ -11,7 +11,7 @@ const StudentDetail = () => {
   const navigate = useNavigate();
   const [student, setStudent] = useState(null);
   const [records, setRecords] = useState([]);
-  const [editingRecord, setEditingRecord] = useState(null); // Para modo edición
+  const [editingRecord, setEditingRecord] = useState(null); 
   const { logout } = useAuth();
 
   const [sleep, setSleep] = useState({
@@ -26,7 +26,7 @@ const StudentDetail = () => {
     quantity: "",
   });
 
-  // ✅ Obtener los datos del estudiante y registros
+  
   useEffect(() => {
     const fetchStudent = async () => {
       try {
@@ -50,34 +50,26 @@ const StudentDetail = () => {
     fetchRecords();
   }, [id]);
 
-  const handleGoBack = () => {
-    navigate(-1); // Volver a la página anterior
-  };
-    // 🔹 Cerrar sesión
-    const handleLogout = () => {
-      console.log("Intentando cerrar sesión...");
-      logout()
-      // Depuración en consola
-    }
+  
     
-  // ✅ Guardar o actualizar un registro
+  //  Guardar o actualizar un registro
   const handleSaveRecord = async (e) => {
     e.preventDefault();
 
     try {
       if (editingRecord) {
-        // 🔹 Modo edición
+        
         const response = await api.put(`/registers/record/${editingRecord._id}`, { sleep, food });
         console.log("✅ Registro actualizado correctamente:", response.data);
 
         setRecords(records.map((rec) => (rec._id === editingRecord._id ? response.data.register : rec)));
-        setEditingRecord(null); // Salir del modo edición
+        setEditingRecord(null); 
       } else {
         // 🔹 Modo crear nuevo registro
         const response = await api.post(`/registers/student/${id}`, { sleep, food });
         console.log("✅ Registro guardado correctamente:", response.data);
 
-        setRecords([...records, response.data.register]); // Agregar nuevo registro a la UI
+        setRecords([...records, response.data.register]); 
       }
 
       // Resetear el formulario
@@ -88,20 +80,20 @@ const StudentDetail = () => {
     }
   };
 
-  // ✅ Cargar datos de un registro en el formulario para editar
+  // Cargar datos de un registro en el formulario para editar
   const handleEditRecord = (record) => {
     setEditingRecord(record);
     setSleep(record.sleep);
     setFood(record.food);
   };
 
-  // ✅ Eliminar un registro
+  // Eliminar un registro
   const handleDeleteRecord = async (recordId) => {
     if (!window.confirm("¿Seguro que quieres eliminar este registro?")) return;
 
     try {
       await api.delete(`/registers/record/${recordId}`);
-      console.log("✅ Registro eliminado correctamente");
+      console.log(" Registro eliminado correctamente");
       setRecords(records.filter((record) => record._id !== recordId));
     } catch (error) {
       console.error("❌ Error al eliminar el registro:", error);
@@ -115,7 +107,7 @@ const StudentDetail = () => {
       <h1 className="student-name">{student.name}</h1>
 
       
-       {/* Botón para volver atrás */}
+      
        <div className="button-container">
   <button className="back-button" onClick={() => navigate(-1)}>
     <FaArrowLeft /> Volver
@@ -128,7 +120,7 @@ const StudentDetail = () => {
 
 
       <div className="student-detail-content">
-        {/* 🔹 Formulario para agregar/editar registros */}
+    
         <div className="register-form">
           <h2>{editingRecord ? "Editar Registro" : "Agregar Registro"}</h2>
           <form onSubmit={handleSaveRecord}>
@@ -178,8 +170,6 @@ const StudentDetail = () => {
             <button type="submit">{editingRecord ? "Actualizar" : "Guardar Registro"}</button>
           </form>
         </div>
-
-        {/* 🔹 Lista de registros guardados */}
         <div className="records-list">
           <h2>Registros de {student.name}</h2>
           {records.length === 0 ? (

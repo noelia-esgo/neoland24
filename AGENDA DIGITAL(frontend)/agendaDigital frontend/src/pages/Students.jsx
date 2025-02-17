@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext"; // ✅ Importamos useAuth
+import { useAuth } from "../context/AuthContext"; 
 import api from "../services/api";
-import { FaUserPlus, FaTrash, FaEdit, FaSignOutAlt } from "react-icons/fa"; // ✅ Importamos icono de logout
+import { FaUserPlus, FaTrash, FaEdit, FaSignOutAlt } from "react-icons/fa"; 
 import "../styles/Students.css";
 
 const Students = () => {
@@ -12,9 +12,9 @@ const Students = () => {
   const [age, setAge] = useState("");
   const [editingStudentId, setEditingStudentId] = useState(null);
   const navigate = useNavigate();
-  const { logout } = useAuth(); // ✅ Obtenemos la función logout
+  const { logout } = useAuth(); //
 
-  // ✅ Cargar estudiantes desde la API al inicio
+  // Cargar estudiantes desde la API al inicio
   useEffect(() => {
     const fetchStudents = async () => {
         try {
@@ -31,14 +31,14 @@ const Students = () => {
 }, []);
 
 
-  // ✅ Agrupar estudiantes por edad
+  // Agruparalumnos por edad
   const groupedStudents = {
     Gateadores: students.filter(student => student.age === 0),
     Andarines: students.filter(student => student.age === 1),
     Saltarines: students.filter(student => student.age === 2 || student.age === 3),
   };
 
-  // ✅ Guardar o editar estudiante
+  // Guardar o editar alumno
   const handleSaveStudent = async (e) => {
     e.preventDefault();
 
@@ -50,34 +50,33 @@ const Students = () => {
     try {
         let response;
         if (editingStudentId) {
-            // ✅ Editar estudiante con `PUT`
+            // Editar alumno 
             response = await api.put(`/students/${editingStudentId}`, { name, age: Number(age) });
-            console.log("✅ Estudiante actualizado:", response.data);
+            console.log(" Estudiante actualizado:", response.data);
 
-            // ✅ Actualizar la lista de estudiantes en el frontend
+            //  Actualizar la lista de alumnos en el frontend
             setStudents((prevStudents) =>
                 prevStudents.map((student) =>
                     student._id === editingStudentId ? response.data : student
                 )
             );
         } else {
-            // ✅ Agregar nuevo estudiante con `POST`
+            // Agregar nuevo alumno
             response = await api.post("/students", { name, age: Number(age) });
-            console.log("✅ Alumno guardado:", response.data);
+            console.log("Alumno guardado:", response.data);
 
             if (!response.data) {
                 throw new Error("La respuesta del servidor es inválida.");
             }
 
-            // ✅ Agregar el nuevo estudiante a la lista
+            // Agregar nuevo alumno
             setStudents((prevStudents) => [...prevStudents, response.data]); 
         }
 
         setShowModal(false);
         setName("");
         setAge("");
-        setEditingStudentId(null); // ✅ Restablecer el estado de edición
-
+        setEditingStudentId(null);
     } catch (error) {
         console.log("❌ Error al guardar el estudiante:", error);
     }
@@ -85,7 +84,7 @@ const Students = () => {
 
 
 
-  // ✅ Editar estudiante
+  // Editar alumno
   const handleEditStudent = (student) => {
     console.log("📌 Editando estudiante:", student);
 
@@ -95,11 +94,11 @@ const Students = () => {
 
     setTimeout(() => {
         setShowModal(true);
-        console.log("📌 showModal cambiado a true después de timeout.");
+        console.log(" showModal cambiado a true después de timeout.");
     }, 0);
 };
 
-  // ✅ Eliminar estudiante
+  // Eliminar alumno
   const handleDeleteStudent = async (id) => {
     if (!window.confirm("¿Seguro que quieres eliminar este alumno?")) return;
 
@@ -113,7 +112,6 @@ const Students = () => {
 
   return (
     <div className="students-container">
-      {/* 🔹 Encabezado con botón de cerrar sesión */}
       <div className="header">
         <h1 className="students-title">Lista de Alumnos</h1>
         <button className="logout-button" onClick={logout}>
@@ -124,8 +122,6 @@ const Students = () => {
       <button className="register-button" onClick={() => setShowModal(true)}>
         <FaUserPlus /> Agregar Nuevo Alumno
       </button>
-
-      {/* 🔹 Mostrar grupos de estudiantes */}
       <div className="students-groups">
         {Object.entries(groupedStudents).map(([groupName, students]) => (
           <div key={groupName} className="student-group">
@@ -141,14 +137,13 @@ const Students = () => {
                     className="student-card"
                     onClick={() => {
                       console.log("📌 Navegando a: ", `/students/${student._id}`);
-                      navigate(`/students/${student._id}`); // 🔹 Redirigir a StudentDetail con ID
+                      navigate(`/students/${student._id}`); 
                     }}
                     style={{ cursor: "pointer" }}
                   >
                     <h3>{student.name}</h3>
                     <p>Edad: {student.age} años</p>
 
-                    {/* 🔹 Evitar que los botones de editar/eliminar activen la navegación */}
                     <div className="student-actions">
                       <FaEdit 
                         className="edit-icon" 
@@ -167,7 +162,6 @@ const Students = () => {
         ))}
       </div>
 
-      {/* 🔹 Modal para agregar/editar alumno */}
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-content">
@@ -180,7 +174,7 @@ const Students = () => {
     placeholder="Nombre del Alumno" 
     value={name} 
     onChange={(e) => {
-        console.log("📌 Nombre ingresado:", e.target.value); // 🔍 Depuración
+        console.log("Nombre ingresado:", e.target.value); // 🔍 Depuración
         setName(e.target.value);
     }} 
 />

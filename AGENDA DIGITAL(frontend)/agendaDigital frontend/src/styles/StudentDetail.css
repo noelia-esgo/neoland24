@@ -11,7 +11,7 @@
   padding-top: 80px;
 }
 
-/* 🔹 Nombre del estudiante (Arriba a la izquierda) */
+
 .student-name {
   position: absolute;
   top: 20px;
@@ -24,22 +24,22 @@
   z-index: 10;
 }
 
-/* 🔹 Contenedor de botones (Volver + Cerrar Sesión) */
+
 .button-container {
   position: fixed;
   top: 10px;
-  width: 100%; /* 🔹 Ocupa toda la parte superior */
+  width: 100%; 
   display: flex;
-  justify-content: space-between; /* 🔹 Separa los botones */
+  justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
   z-index: 9999;
-  background: transparent; /* 🔹 Sin fondo para evitar conflictos */
+  background: transparent; 
 }
 
-/* 🔹 Estilo base para ambos botones */
+
 .button-container button {
-  display: inline-flex !important; /* Mantiene la alineación */
+  display: inline-flex !important; 
   align-items: center;
   justify-content: center;
   padding: 10px 15px;
@@ -49,16 +49,14 @@
   border-radius: 6px;
   cursor: pointer;
   transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
-  white-space: nowrap; /* Evita que el texto se corte */
+  white-space: nowrap; 
 }
 
-/* 🔹 Botón de Volver */
-/* 🔹 Botón de Volver (Ajustado para que se vea completamente) */
-/* 🔹 Botón de Volver (Ajustado para que se vea completamente) */
+
 .back-button {
   position: fixed;
-  top: 8px; /* 🔹 Mantiene buena alineación */
-  left: 25px; /* 🔹 Movido un poco más a la derecha */
+  top: 8px; 
+  left: 25px; 
   background-color: #6c757d;
   color: white;
   padding: 8px 12px;
@@ -69,7 +67,7 @@
   cursor: pointer;
   transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
   white-space: nowrap;
-  z-index: 10000; /* 🔥 Asegura que esté sobre otros elementos */
+  z-index: 10000;
 }
 
 .back-button:hover {
@@ -79,11 +77,11 @@
 
 
 
-/* 🔹 Botón de Cerrar Sesión */
+
 .logout-button {
   position: fixed;
-  top: 5px; /* 🔹 Ajustado más arriba */
-  right: 10px; /* 🔹 Fijado a la derecha */
+  top: 5px; 
+  right: 10px; 
   background-color: #ff4d4d;
   color: white;
   padding: 10px 15px;
@@ -101,7 +99,7 @@
   transform: scale(1.05);
 }
 
-/* 🔹 Contenedor de detalles */
+
 .student-detail-content {
   display: flex;
   justify-content: space-between;
@@ -114,7 +112,7 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* 📝 Formulario de registro */
+
 .register-form {
   flex: 1;
   padding: 20px;
@@ -164,7 +162,7 @@
   background: #218838;
 }
 
-/* 📌 Registros */
+
 .records-list {
   flex: 1;
   padding: 20px;
@@ -201,7 +199,7 @@
   margin: 5px 0;
 }
 
-/* Botones de acción */
+
 .record-item button {
   padding: 8px 12px;
   border: none;
@@ -230,12 +228,12 @@
   background: #c82333;
 }
 
-/* 🔹 Diseño responsivo */
+
 @media (max-width: 768px) {
   .button-container {
     top: 5px;
     right: 10px;
-    flex-direction: row !important; /* ✅ Asegura que los botones sigan en fila */
+    flex-direction: row !important;
     gap: 8px;
   }
 

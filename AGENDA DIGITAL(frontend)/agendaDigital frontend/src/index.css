@@ -5,8 +5,8 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
-  background: none !important; /* ✅ Mantiene el fondo sin conflictos */
-  position: relative; /* ✅ Asegura que los elementos absolutos se posicionen correctamente */
+  background: none !important; 
+  position: relative; 
 }
 
 

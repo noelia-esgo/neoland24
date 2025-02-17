@@ -13,12 +13,12 @@ const Dashboard = () => {
     } else {
       setIsAuthenticated(true);
     }
-  }, [navigate,isAuthenticated]); // ✅ Solo depende de navigate, evitando bucles
+  }, [navigate,isAuthenticated]); 
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    setIsAuthenticated(false); // ✅ Cambia el estado antes de redirigir
+    setIsAuthenticated(false); 
     navigate("/login", { replace: true });
     window.location.reload()
   };

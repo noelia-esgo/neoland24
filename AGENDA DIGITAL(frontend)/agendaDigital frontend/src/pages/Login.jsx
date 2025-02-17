@@ -31,46 +31,45 @@ const LoginPage = () => {
     };
 
     const handleLogin = async (e) => {
-      e.preventDefault();
-      setError("");
-      setMessage("");
-  
-      // ✅ Validación antes de enviar la petición
-      if (!email || !password) {
-          setError("⚠ Todos los campos son obligatorios.");
-          return;
-      }
-  
-      setLoading(true);
-  
-      try {
-          const response = await api.post("/auth/login", { email, password });
-          const { token, user } = response.data;
-  
-          login(user, token);
-      } catch (err) {
-          let errorMessage = "⚠ Error en el inicio de sesión.";
-  
-          // ✅ Si el backend devuelve un error 401, mostramos mensaje y reiniciamos después de 3 segundos
-          if (err.response?.status === 401) {
-              errorMessage = "⚠ Correo electrónico o contraseña incorrectos.";
-          } else if (!err.response) {
-              errorMessage = "⚠ No se pudo conectar con el servidor.";
-          }
-  
-          setError(errorMessage);
-  
-          // ✅ Restablecer el formulario y el botón después de 3 segundos
-          setTimeout(() => {
-              setError(""); // 🔹 Ocultar mensaje de error
-              setEmail(""); // 🔹 Borrar email
-              setPassword(""); // 🔹 Borrar contraseña
-              setLoading(false); // 🔹 Hacer que el botón vuelva a "Iniciar Sesión"
-          }, 3000);
-      }
-  };
-  
-  
+    e.preventDefault();
+    setError("");
+    setMessage("");
+
+    
+    if (!email || !password) {
+        setError("⚠ Todos los campos son obligatorios.");
+        return;
+    }
+
+    setLoading(true);
+
+    try {
+        const response = await api.post("/auth/login", { email, password });
+        const { token, user } = response.data;
+
+        login(user, token);
+    } catch (err) {
+        let errorMessage = "⚠ Error en el inicio de sesión.";
+
+        if (err.response?.status === 401) {
+            errorMessage = "⚠ Correo electrónico o contraseña incorrectos.";
+        } else if (!err.response) {
+            errorMessage = "⚠ No se pudo conectar con el servidor.";
+        }
+
+        setError(errorMessage);
+
+    
+        setTimeout(() => {
+            setError(""); 
+            setEmail("")
+            setPassword(""); 
+            setLoading(false); 
+        }, 3000);
+    }
+};
+
+
     const handleRegister = async (e) => {
         e.preventDefault();
         setError("");
@@ -87,7 +86,7 @@ const LoginPage = () => {
             const response = await api.post("/auth/register", { name, email, password });
 
             if (response.data.message && response.data.message.toLowerCase().includes("registro exitoso")) {
-                setMessage("🎉 Usuario registrado con éxito.");
+                setMessage("Usuario registrado con éxito.");
 
                 setTimeout(() => {
                     setMessage(""); 
@@ -109,7 +108,7 @@ const LoginPage = () => {
             <div className="login-box">
                 <h2 className="login-title">{showRegister ? "Registro" : "Bienvenido"}</h2>
 
-                {/* ✅ Muestra mensajes de error o éxito */}
+                
                 {error && <p className="error-message">{error}</p>}
                 {message && <p className="success-message">{message}</p>}
 

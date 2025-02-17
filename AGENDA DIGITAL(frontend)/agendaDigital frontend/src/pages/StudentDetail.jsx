@@ -3,6 +3,8 @@ import { useParams,useNavigate } from "react-router-dom";
 import api from "../services/api";
 import "../styles/StudentDetail.css";
 import { useAuth } from "../context/AuthContext";
+import { FaSignOutAlt,FaArrowLeft } from "react-icons/fa";
+
 
 const StudentDetail = () => {
   const { id } = useParams();
@@ -115,13 +117,14 @@ const StudentDetail = () => {
       
        {/* Botón para volver atrás */}
        <div className="button-container">
-       <button onClick={handleGoBack} className="back-button">
-        ⬅ Volver
-      </button>
-      <button onClick={handleLogout} className="logout-button">
-         Cerrar Sesión
-      </button>
-      </div>
+  <button className="back-button" onClick={() => navigate(-1)}>
+    <FaArrowLeft /> Volver
+  </button>
+  <button className="logout-button" onClick={logout}>
+    <FaSignOutAlt /> Cerrar Sesión
+  </button>
+</div>
+
 
 
       <div className="student-detail-content">
@@ -152,8 +155,8 @@ const StudentDetail = () => {
               <select value={food.mealType} onChange={(e) => setFood({ ...food, mealType: e.target.value })}>
                 <option value="">Selecciona...</option>
                 <option value="desayuno">Desayuno</option>
-                <option value="almuerzo">Almuerzo</option>
-                <option value="cena">Cena</option>
+                <option value="almuerzo">Comida</option>
+                <option value="cena">Merienda</option>
               </select>
             </label>
             <label>
@@ -161,9 +164,16 @@ const StudentDetail = () => {
               <input type="text" value={food.description} onChange={(e) => setFood({ ...food, description: e.target.value })} />
             </label>
             <label>
-              Cantidad: 
-              <input type="text" value={food.quantity} onChange={(e) => setFood({ ...food, quantity: e.target.value })} />
-            </label>
+  Cantidad:
+  <select value={food.quantity} onChange={(e) => setFood({ ...food, quantity: e.target.value })}>
+    <option value="">Seleccione una opción</option>
+    <option value="Todo">Todo</option>
+    <option value="Bastante">Bastante</option>
+    <option value="Poco">Poco</option>
+    <option value="Nada">Nada</option>
+  </select>
+</label>
+
 
             <button type="submit">{editingRecord ? "Actualizar" : "Guardar Registro"}</button>
           </form>

@@ -27,20 +27,15 @@
 /* 🔹 Contenedor de botones (Volver + Cerrar Sesión) */
 .button-container {
   position: fixed;
-  top: 15px;
-  right: 15px;
-  display: flex !important;
-  flex-direction: row; /* Asegura que estén en fila */
+  top: 10px;
+  width: 100%; /* 🔹 Ocupa toda la parte superior */
+  display: flex;
+  justify-content: space-between; /* 🔹 Separa los botones */
   align-items: center;
-  gap: 10px; /* Ajusta el espacio entre los botones */
-  z-index: 9999; /* Asegura que está sobre todo */
-  background: rgba(255, 255, 255, 0.95); /* Fondo sutil para visibilidad */
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
-  min-width: max-content; /* Ajusta el ancho automáticamente */
+  padding: 10px 20px;
+  z-index: 9999;
+  background: transparent; /* 🔹 Sin fondo para evitar conflictos */
 }
-
 
 /* 🔹 Estilo base para ambos botones */
 .button-container button {
@@ -57,26 +52,52 @@
   white-space: nowrap; /* Evita que el texto se corte */
 }
 
-/* 🔹 Botón de Cerrar Sesión */
-.logout-button {
-  background-color: #ff4d4d;
-  color: white;
-}
-
-.logout-button:hover {
-  background-color: #cc0000;
-  transform: scale(1.05);
-}
-
 /* 🔹 Botón de Volver */
+/* 🔹 Botón de Volver (Ajustado para que se vea completamente) */
+/* 🔹 Botón de Volver (Ajustado para que se vea completamente) */
 .back-button {
+  position: fixed;
+  top: 8px; /* 🔹 Mantiene buena alineación */
+  left: 25px; /* 🔹 Movido un poco más a la derecha */
   background-color: #6c757d;
-  color: white !important; /* ✅ Asegura que el texto sea visible */
-  visibility: visible !important; /* ✅ Asegura que NO esté oculto */
+  color: white;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+  white-space: nowrap;
+  z-index: 10000; /* 🔥 Asegura que esté sobre otros elementos */
 }
 
 .back-button:hover {
   background-color: #5a6268;
+  transform: scale(1.05);
+}
+
+
+
+/* 🔹 Botón de Cerrar Sesión */
+.logout-button {
+  position: fixed;
+  top: 5px; /* 🔹 Ajustado más arriba */
+  right: 10px; /* 🔹 Fijado a la derecha */
+  background-color: #ff4d4d;
+  color: white;
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+  white-space: nowrap;
+}
+
+.logout-button:hover {
+  background-color: #cc0000;
   transform: scale(1.05);
 }
 
@@ -212,7 +233,7 @@
 /* 🔹 Diseño responsivo */
 @media (max-width: 768px) {
   .button-container {
-    top: 10px;
+    top: 5px;
     right: 10px;
     flex-direction: row !important; /* ✅ Asegura que los botones sigan en fila */
     gap: 8px;

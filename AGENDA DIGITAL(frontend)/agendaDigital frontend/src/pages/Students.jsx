@@ -87,11 +87,17 @@ const Students = () => {
 
   // ✅ Editar estudiante
   const handleEditStudent = (student) => {
+    console.log("📌 Editando estudiante:", student);
+
     setEditingStudentId(student._id);
     setName(student.name);
     setAge(student.age);
-    setShowModal(true);
-  };
+
+    setTimeout(() => {
+        setShowModal(true);
+        console.log("📌 showModal cambiado a true después de timeout.");
+    }, 0);
+};
 
   // ✅ Eliminar estudiante
   const handleDeleteStudent = async (id) => {

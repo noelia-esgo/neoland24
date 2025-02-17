@@ -1,25 +1,29 @@
 const Student = require('./models/students')
 
+//nuevo alumno
 const createStudent = async (req, res) => {
     try {
-      req.body.name = req.body.name.trim(); // 🔹 Elimina espacios innecesarios
-      req.body.name = req.body.name.toLowerCase(); // 🔹 Convierte el nombre a minúsculas para evitar diferencias
-  
-      const existingStudent = await Student.findOne({ name: req.body.name });
-      if (existingStudent) {
-        return res.status(400).json({ message: "❌ Ese nombre ya existe. Intenta con otro nombre." });
-      }
-  
-      const student = new Student(req.body);
-      await student.save();
-      res.status(201).json(student);
-    } catch (error) {
-      console.error("❌ Error al crear el estudiante:", error);
-      res.status(500).json({ message: "Error interno del servidor" });
-    }
-  };
-  
+    req.body.name = req.body.name.trim(); 
+    req.body.name = req.body.name.toLowerCase(); 
 
+    const existingStudent = await Student.findOne({ name: req.body.name });
+    if (existingStudent) {
+        return res.status(400).json({ message: "❌ Ese nombre ya existe. Intenta con otro nombre." });
+    }
+
+    const student = new Student(req.body);
+    await student.save();
+    res.status(201).json(student);
+    } catch (error) {
+    console.error("❌ Error al crear el estudiante:", error);
+
+    res.status(500).json({ message: "Error interno del servidor" });
+    }
+};
+
+
+
+//listado alumnos 
 
 const getStudent = async (req, res) => {
     try {
@@ -36,16 +40,18 @@ const getStudent = async (req, res) => {
 
 }
 
+
+//editar alumnos
 const updateStudent = async (req, res) => {
     try {
-        console.log("📌 Datos recibidos para actualizar:", req.body);
+        console.log(" Datos recibidos para actualizar:", req.body);
 
-        // ✅ Permitir `0` como edad válida
+        
         if (!req.body.name || req.body.age === "" || req.body.age === null || req.body.age === undefined) {
             return res.status(400).json({ message: "Todos los campos son obligatorios." });
         }
 
-        req.body.age = Number(req.body.age); // ✅ Convertir `age` a número
+        req.body.age = Number(req.body.age); 
 
         if (isNaN(req.body.age) || req.body.age < 0) {
             return res.status(400).json({ message: "⚠ La edad debe ser un número mayor o igual a 0." });
@@ -54,7 +60,7 @@ const updateStudent = async (req, res) => {
         const student = await Student.findByIdAndUpdate(
             req.params.id, 
             req.body, 
-            { new: true } // ✅ Devuelve el estudiante actualizado
+            { new: true } 
         );
 
         if (!student) {
@@ -71,6 +77,7 @@ const updateStudent = async (req, res) => {
 };
 
 
+//borrar alumnos
 const deleteStudent= async(req,res)=>{
     try {
         const studentDelete = await Student.findByIdAndDelete(req.params.id)
@@ -89,5 +96,7 @@ const deleteStudent= async(req,res)=>{
 
 }
 
+
+//exportaciones
 
 module.exports = { createStudent, getStudent,updateStudent,deleteStudent }

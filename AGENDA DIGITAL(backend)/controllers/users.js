@@ -1,6 +1,6 @@
 const User = require("../models/users");
 
-// 📌 Obtener un usuario por ID
+// Obtener usuarios por ID
 const getUser = async (req, res) => {
     try {
         const user = await User.findById(req.params.id).select("-password");
@@ -14,7 +14,7 @@ const getUser = async (req, res) => {
     }
 };
 
-// 📌 Actualizar un usuario
+// Actualizar usuario
 const updateUser = async (req, res) => {
     try {
         const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true }).select("-password");
@@ -28,7 +28,7 @@ const updateUser = async (req, res) => {
     }
 };
 
-// 📌 Eliminar un usuario
+// Eliminar un usuario
 const deleteUser = async (req, res) => {
     try {
         const user = await User.findByIdAndDelete(req.params.id);
@@ -42,4 +42,6 @@ const deleteUser = async (req, res) => {
     }
 };
 
+
+//exportaciones
 module.exports = { getUser, updateUser, deleteUser };

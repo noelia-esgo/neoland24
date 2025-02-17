@@ -3,10 +3,10 @@ const router = express.Router();
 const Student = require("../models/students");
 const mongoose = require("mongoose");
 
-// ✅ Crear un nuevo estudiante
+// Crear un nuevo alumno
 router.post("/", async (req, res) => {
     try {
-        console.log("📌 Creando nuevo estudiante con datos:", req.body);
+        console.log("Creando nuevo estudiante con datos:", req.body);
 
         if (!req.body.name || req.body.age === undefined) {
             return res.status(400).json({ message: "⚠ Todos los campos son obligatorios." });
@@ -21,7 +21,7 @@ router.post("/", async (req, res) => {
         const savedStudent = await newStudent.save();
         console.log("✅ Estudiante guardado:", savedStudent);
 
-        res.status(201).json(savedStudent); // ✅ Enviar estudiante correctamente
+        res.status(201).json(savedStudent); 
     } catch (error) {
         console.error("❌ Error al crear el estudiante:", error);
         res.status(500).json({ message: "Error al crear el estudiante", error });
@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
 });
 
 
-// ✅ Obtener todos los estudiantes
+// Obtener todos los alumnos
 router.get("/", async (req, res) => {
     try {
         const students = await Student.find({}, { records: 0 }); // 🔥 No traer registros en esta consulta
@@ -39,7 +39,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-// ✅ Obtener un estudiante por ID
+// Obtener alumno por ID
 router.get("/:id", async (req, res) => {
     try {
         if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -57,10 +57,10 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-// ✅ Actualizar un estudiante
+// Actualizar alumno
 router.put("/:id", async (req, res) => {
     try {
-        console.log("📌 Datos recibidos para actualizar:", req.body);
+        console.log(" Datos recibidos para actualizar:", req.body);
 
         if (!req.body.name || req.body.age === undefined) {
             return res.status(400).json({ message: "⚠ Todos los campos son obligatorios." });
@@ -88,7 +88,7 @@ router.put("/:id", async (req, res) => {
     }
 });
 
-// ✅ Eliminar un estudiante
+// Eliminar alumno
 router.delete("/:id", async (req, res) => {
     try {
         console.log("🗑 Eliminando estudiante con ID:", req.params.id);

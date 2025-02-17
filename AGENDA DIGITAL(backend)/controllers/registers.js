@@ -2,17 +2,17 @@ const Register = require("../models/registers");
 const Student = require("../models/students");
 const mongoose = require("mongoose");
 
-// ✅ Obtener todos los registros de un estudiante por `studentId`
+//  Obtener todos los registros de un alumno
 const getRegistersByStudentId = async (req, res) => {
   try {
     const { studentId } = req.params;
 
-    // ✅ Validar si `studentId` es un ObjectId válido
+    //  Validar si `studentId` es un ObjectId válido
     if (!mongoose.Types.ObjectId.isValid(studentId)) {
       return res.status(400).json({ message: "❌ ID de estudiante inválido." });
     }
 
-    // ✅ Buscar registros con el `studentId`
+    //  Buscar registros
     const records = await Register.find({ studentId: new mongoose.Types.ObjectId(studentId) });
 
     if (!records.length) {
@@ -26,7 +26,7 @@ const getRegistersByStudentId = async (req, res) => {
   }
 };
 
-// ✅ Obtener un registro específico por ID
+// Obtener un registro específico por ID
 const getRegister = async (req, res) => {
   try {
     const record = await Register.findById(req.params.id);
@@ -40,7 +40,7 @@ const getRegister = async (req, res) => {
   }
 };
 
-// ✅ Crear un nuevo registro
+// Crear un nuevo registro
 const createRegister = async (req, res) => {
   try {
     const { studentId } = req.params;
@@ -48,13 +48,13 @@ const createRegister = async (req, res) => {
 
     console.log("📩 Datos recibidos en el backend:", req.body);
 
-    // ✅ Verificar si el estudiante existe
+    // Verificar si el estudiante existe
     const student = await Student.findById(studentId);
     if (!student) {
       return res.status(404).json({ message: "❌ Estudiante no encontrado" });
     }
 
-    // ✅ Crear el nuevo registro en la colección `Register`
+    // Crear el nuevo registro en la colección `Register`
     const newRegister = new Register({
       studentId,
       sleep,
@@ -63,7 +63,7 @@ const createRegister = async (req, res) => {
 
     await newRegister.save();
 
-    // ✅ Agregar el nuevo registro al `records` del estudiante
+    // Agregar el nuevo registro al `records` del estudiante
     student.records.push(newRegister);
     await student.save();
 
@@ -75,7 +75,7 @@ const createRegister = async (req, res) => {
   }
 };
 
-// ✅ Actualizar un registro por ID
+// Actualizar un registro por ID
 const updateRegister = async (req, res) => {
   try {
     const { recordId } = req.params;
@@ -87,7 +87,7 @@ const updateRegister = async (req, res) => {
     const updatedRegister = await Register.findByIdAndUpdate(
       recordId, 
       req.body, 
-      { new: true, runValidators: true } // Devuelve el registro actualizado y valida datos
+      { new: true, runValidators: true } 
     );
 
     if (!updatedRegister) {
@@ -102,7 +102,7 @@ const updateRegister = async (req, res) => {
 };
 
 
-// ✅ Eliminar un registro por ID
+// Eliminar un registro por ID
 const deleteRegister = async (req, res) => {
   try {
     const { recordId } = req.params;
@@ -123,7 +123,7 @@ const deleteRegister = async (req, res) => {
     res.status(500).json({ message: "Error en el servidor." });
   }
 };
-// ✅ Exportamos todas las funciones
+// Exportar todas las funciones
 module.exports = {
   getRegistersByStudentId,
   getRegister,

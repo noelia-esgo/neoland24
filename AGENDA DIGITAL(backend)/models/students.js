@@ -4,7 +4,7 @@ const studentSchema = new mongoose.Schema({
   name: { type: String, required: true },
   age: { type: Number, required: true },
 
-  records: [  // 🔹 Array de registros de sueño y comida
+  records: [  
     {
       sleep: {
         morning: { hours: Number, minutes: Number },

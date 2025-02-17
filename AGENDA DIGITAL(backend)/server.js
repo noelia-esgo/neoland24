@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const authRoutes = require("./routes/auth.js");
-const studentRoutes = require("./routes/students"); // ✅ Importamos la ruta de estudiantes
+const studentRoutes = require("./routes/students"); 
 const registerRoutes = require("./routes/registers"); 
 
 dotenv.config();
@@ -18,9 +18,10 @@ mongoose.connect(process.env.MONGO_URI, {
 }).then(() => console.log("✅ Conectado a MongoDB"))
 .catch(error => console.error("❌ Error en la conexión a MongoDB:", error));
 
-// 📌 Rutas
+
+
 app.use("/api/auth", authRoutes);
-app.use("/api/students", studentRoutes); // ✅ Ahora las rutas de estudiantes funcionan
+app.use("/api/students", studentRoutes); 
 app.use("/api/registers", registerRoutes);
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`✅ Servidor corriendo en http://localhost:${PORT}`));

@@ -1,12 +1,12 @@
 const express = require("express");
-const { registerUser, loginUser } = require("../controllers/auth.js"); // ✅ Importa correctamente usando CommonJS
+const { registerUser, loginUser } = require("../controllers/auth.js"); 
 
 const router = express.Router();
 
-router.post("/register", registerUser); // ✅ Define la ruta correctamente
+router.post("/register", registerUser);
 router.post("/login", loginUser);
 
-module.exports = router; // ✅ Exporta correctamente usando CommonJS
+module.exports = router;
 
 
 

@@ -1,6 +1,10 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/users");
 
+
+//codigo de autenticacion del usuario
+
+
 const authenticate = async (req, res, next) => {
     try {
         if (!req.headers.authorization || !req.headers.authorization.startsWith("Bearer")) {
